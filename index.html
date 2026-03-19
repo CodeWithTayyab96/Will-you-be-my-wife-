@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A special question for my wife!">
+    <title>Will you be my wife? 🌹</title>
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* ===== SCREENS ===== */
+        .screen {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0; left: 0;
+        }
+        .screen.active { display: flex; }
+
+        /* ===== QUESTION SCREEN ===== */
+        #question-screen {
+            background-color: #FFDDE1;
+            position: relative;
+        }
+
+        .main-question {
+            font-family: Arial, sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #D6336C;
+            text-align: center;
+            margin-bottom: 40px;
+            z-index: 1;
+        }
+
+        @keyframes fadeInUp {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 0.9; }
+        }
+
+        /* ===== BUTTONS ===== */
+        .buttons {
+            display: flex;
+            gap: 30px;
+            z-index: 1;
+        }
+        .btn {
+            font-family: Arial, sans-serif;
+            font-size: 20.8px;
+            font-weight: 700;
+            color: #FFFFFF;
+            border: none;
+            width: 140px;
+            height: 60px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .yes-btn {
+            background-color: #28A745;
+        }
+
+        .no-btn {
+            background-color: #DC3545;
+            position: relative;
+            transition: none;
+        }
+
+        /* ===== HAPPY SCREEN ===== */
+        #happy-screen {
+            background-color: #FFDDE1;
+            gap: 15px;
+            overflow: hidden;
+        }
+        .happy-text {
+            font-family: Arial, sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #D6336C;
+            text-align: center;
+            z-index: 2;
+            margin-bottom: 20px;
+        }
+
+        /* Cute Cats Grid using emoji */
+        .cats-container {
+            display: flex;
+            gap: 15px;
+            animation: fadeInUp 1.2s ease;
+            z-index: 2;
+        }
+        .cat-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px 18px 12px;
+            box-shadow: 0 8px 32px rgba(233,30,99,0.15);
+            animation: gentleFloat 3s ease-in-out infinite;
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+        .cat-card:nth-child(2) { animation-delay: 0.3s; }
+        .cat-card:nth-child(3) { animation-delay: 0.6s; }
+        .cat-card:nth-child(4) { animation-delay: 0.9s; }
+        .cat-card:nth-child(5) { animation-delay: 1.2s; }
+
+        .cat-photo {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Floating Hearts */
+        .hearts-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .floating-heart {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: floatUp 4s ease-in-out infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* ===== PRANK SCREEN ===== */
+        #prank-screen {
+            background-color: #FFDDE1;
+            gap: 30px;
+        }
+        .prank-text {
+            font-family: Arial, sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #D6336C;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .angry-cat-container {
+            animation: zoomIn 0.6s ease;
+            z-index: 2;
+            position: relative;
+        }
+        .angry-cat-photo {
+            width: 250px;
+            height: auto;
+            filter: drop-shadow(0 0 40px rgba(255,23,68,0.5));
+            animation: pulse 2s ease-in-out infinite;
+            display: block;
+            margin: 0 auto;
+        }
+
+        @keyframes zoomIn {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .main-question { font-size: 2.2rem; padding: 0 20px; }
+            .btn { font-size: 1.1rem; padding: 12px 40px; }
+            .happy-text { font-size: 2.5rem; padding: 0 20px; }
+            .prank-text { font-size: 2rem; padding: 0 20px; }
+            .cat-photo { width: 80px; height: 80px; }
+            .cat-card { padding: 8px; }
+            .cats-container { gap: 8px; flex-wrap: wrap; justify-content: center; max-width: 95vw; }
+            .angry-cat-photo { width: 180px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Initial Question Screen -->
+    <div id="question-screen" class="screen active">
+        <h1 class="main-question">Will you be my wife? 🌹</h1>
+        <div class="buttons">
+            <button id="yes-btn" class="btn yes-btn" onclick="handleYes()">Yes</button>
+            <button id="no-btn" class="btn no-btn" onclick="handleNoClick()">No</button>
+        </div>
+    </div>
+
+    <!-- Happy Screen -->
+    <div id="happy-screen" class="screen">
+        <h1 class="happy-text">Good girl ❤️</h1>
+        <div class="cats-container">
+            <div class="cat-card">
+                <img src="https://willbemyval.netlify.app/us1.jpeg" alt="couple" class="cat-photo">
+            </div>
+            <div class="cat-card">
+                <img src="https://willbemyval.netlify.app/us2.jpeg" alt="couple" class="cat-photo">
+            </div>
+            <div class="cat-card">
+                <img src="https://willbemyval.netlify.app/us3.jpeg" alt="couple" class="cat-photo">
+            </div>
+            <div class="cat-card">
+                <img src="https://willbemyval.netlify.app/us4.jpeg" alt="couple" class="cat-photo">
+            </div>
+            <div class="cat-card">
+                <img src="https://willbemyval.netlify.app/us5.jpeg" alt="couple" class="cat-photo">
+            </div>
+        </div>
+        <div class="hearts-container" id="hearts-container"></div>
+    </div>
+
+    <!-- Prank Screen -->
+    <div id="prank-screen" class="screen">
+        <h1 class="prank-text">Stop messing with me! 😾</h1>
+        <div class="angry-cat-container">
+            <img src="https://willbemyval.netlify.app/cat.png" alt="angry cat" class="angry-cat-photo">
+        </div>
+    </div>
+
+    <script>
+        let noAttempts = 0;
+        const MAX_ATTEMPTS = 15; // Increased limit
+
+        // ===== HANDLE "NO" BUTTON =====
+        function handleNoClick() {
+            noAttempts++;
+            
+            if (noAttempts >= MAX_ATTEMPTS) {
+                // Show prank screen immediately if limit reached
+                const questionScreen = document.getElementById('question-screen');
+                const prankScreen = document.getElementById('prank-screen');
+                questionScreen.classList.remove('active');
+                prankScreen.classList.add('active');
+            } else {
+                moveNoButton();
+            }
+        }
+
+        function moveNoButton() {
+            const noBtn = document.getElementById('no-btn');
+            // Change position to fixed so it breaks out of the flex container
+            noBtn.style.position = 'fixed';
+            
+            const padding = 80;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+            
+            // Random coordinates within safe bounds
+            const randomX = Math.max(padding / 2, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding / 2, Math.floor(Math.random() * maxY));
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        // ===== HANDLE "YES" BUTTON =====
+        function handleYes() {
+            // Always show the happy screen when Yes is clicked!
+            const questionScreen = document.getElementById('question-screen');
+            const happyScreen = document.getElementById('happy-screen');
+            questionScreen.classList.remove('active');
+            happyScreen.classList.add('active');
+            spawnHearts();
+        }
+
+        // ===== FLOATING HEARTS =====
+        function spawnHearts() {
+            const container = document.getElementById('hearts-container');
+            const heartEmojis = ['💖', '💕', '❤️', '💗', '💝', '🩷'];
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'floating-heart';
+                heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 4 + 's';
+                heart.style.animationDuration = (3 + Math.random() * 3) + 's';
+                heart.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
+                container.appendChild(heart);
+            }
+        }
+    </script>
+</body>
+</html>
